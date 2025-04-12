@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { MenuItem, OrderItem } from "../types";
-import { jsx } from "react/jsx-runtime";
 
 export default function useOrder() {
 	const [order, setOrder] = useState<OrderItem[]>([])
