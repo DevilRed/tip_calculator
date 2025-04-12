@@ -23,9 +23,17 @@ function App() {
           </div>
         </div>
         <div className="border border-dashed border-slate-300 py-5 rounded-lg space-y-10">
-          <OrderContent order={order} removeItem={removeItem} />
-          <TipPercentageForm setTip={setTip} />
-          <OrderTotals order={order} />
+          <OrderContent
+           order={order}
+           removeItem={removeItem}
+          />
+          <TipPercentageForm
+            setTip={setTip}
+          />
+          <OrderTotals
+            order={order}
+            tip={tip}
+          />
         </div>
       </main>
     </>
