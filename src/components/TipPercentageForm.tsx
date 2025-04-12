@@ -1,3 +1,5 @@
+import { Dispatch } from "react";
+
 const tipOptions = [
 	{
 		id: 'tip-10',
@@ -16,7 +18,11 @@ const tipOptions = [
 	},
 ]
 
-export const TipPercentageForm = () => {
+type TipPercentageFormProps = {
+	setTip: Dispatch<React.SetStateAction<number>>
+}
+
+export const TipPercentageForm = ({setTip}: TipPercentageFormProps) => {
 	return (
 		<div>
 			<h3 className="font-black text-2xl">Tip</h3>
@@ -30,6 +36,7 @@ export const TipPercentageForm = () => {
 							id={tip.id}
 							name="tip"
 							value={tip.value}
+							onChange={e => setTip(+e.target.value)}
 						/>
 					</div>
 				))}
