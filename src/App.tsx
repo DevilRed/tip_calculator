@@ -23,19 +23,27 @@ function App() {
           </div>
         </div>
         <div className="border border-dashed border-slate-300 py-5 rounded-lg space-y-10">
-          <OrderContent
-           order={order}
-           removeItem={removeItem}
-          />
-          <TipPercentageForm
-            setTip={setTip}
-            tip={tip}
-          />
-          <OrderTotals
-            order={order}
-            tip={tip}
-            placerOrder={placerOrder}
-          />
+          {order.length ? (
+            <>
+              <OrderContent
+              order={order}
+              removeItem={removeItem}
+              />
+              <TipPercentageForm
+                setTip={setTip}
+                tip={tip}
+              />
+              <OrderTotals
+                order={order}
+                tip={tip}
+                placerOrder={placerOrder}
+              />
+            </>
+          ):
+          (
+            <p className="text-center">Order is empty</p>
+          )}
+
         </div>
       </main>
     </>
