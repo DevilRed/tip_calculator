@@ -26,7 +26,8 @@ export default function useOrder() {
 		setOrder(order.filter((item) => item.id !== id))
 	}
 	const placerOrder = () => {
-		console.log('guardando');
+		setOrder([])
+		setTip(0)
 	}
 	return {
 		addItem,
