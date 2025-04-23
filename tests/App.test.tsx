@@ -42,9 +42,9 @@ vi.mock('../src/components/TipPercentageForm', () => ({
   )
 }));
 vi.mock('../src/components/OrderTotals', () => ({
-  OrderTotals: ({ placeOrder }: { placeOrder: () => void }) => (
+  OrderTotals: ({ placerOrder }: { placerOrder: () => void }) => (
     <div data-testid="order-totals">
-      <button data-testid="place-order-btn" onClick={placeOrder}>Place Order</button>
+      <button data-testid="place-order-btn" onClick={placerOrder}>Place Order</button>
     </div>
   )
 }));
@@ -75,5 +75,58 @@ describe("App", () => {
     expect(screen.queryByText('Order is empty')).not.toBeInTheDocument();
     expect(screen.getByTestId('order-content')).toBeInTheDocument();
     expect(screen.getByTestId(`order-item-${menuItems[0].id}`)).toBeInTheDocument();
+  });
+
+  it('should remove items from order', async () => {
+    renderComponent()
+    const user = userEvent.setup()
+
+    // add item
+    const itemAddBtn = screen.getByTestId(`menu-item-${menuItems[0].id}`).querySelector('button')
+
+    if (!itemAddBtn) throw new Error('Add button not found')
+    await user.click(itemAddBtn)
+
+    // remove item
+    const removeBtn = screen.getByTestId(`order-item-${menuItems[0].id}`).querySelector('button')
+    if (!removeBtn) throw new Error('Remove button not found')
+    await user.click(removeBtn)
+
+    expect(screen.getByText(/order is empty/i)).toBeInTheDocument()
+  });
+
+  it('should update tip value', async () => {
+    renderComponent()
+    const user = userEvent.setup()
+
+    // add item to show tip form
+    const itemAddBtn = screen.getByTestId(`menu-item-${menuItems[0].id}`).querySelector('button')
+
+    if (!itemAddBtn) throw new Error('Add button not found')
+    await user.click(itemAddBtn)
+
+    // change tip value
+    const tipInput = screen.getByTestId('tip-input');
+    await userEvent.clear(tipInput)
+    await user.type(tipInput, '15');
+
+    // Tip should be updated in the form
+    expect(tipInput.value).toBe('15');
+  });
+
+  it('should reset order when placing order', async () => {
+    renderComponent()
+    const user = userEvent.setup()
+
+    const itemAddBtn = screen.getByTestId(`menu-item-${menuItems[0].id}`).querySelector('button')
+     if (!itemAddBtn) throw new Error('Add button not found')
+    await user.click(itemAddBtn)
+
+    // place order
+    const placeOrderBtn = screen.getByTestId('place-order-btn');
+    await user.click(placeOrderBtn);
+    //screen.debug()
+
+    expect(screen.getByText(/order is empty/i)).toBeInTheDocument()
   });
 });
