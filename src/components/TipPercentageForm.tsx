@@ -18,7 +18,7 @@ const tipOptions = [
 	},
 ]
 
-type TipPercentageFormProps = {
+export type TipPercentageFormProps = {
 	setTip: Dispatch<React.SetStateAction<number>>,
 	tip: number
 }

@@ -1,12 +1,14 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import App from "../src/App";
-import { MenuItem, OrderItem } from "../src/types";
 import { menuItems } from "../src/data/db";
+import { MenuItemProps } from "../src/components/MenuItem";
+import { OrderContentProps } from "../src/components/OrderContent";
+import { TipPercentageFormProps } from "../src/components/TipPercentageForm";
 import userEvent from "@testing-library/user-event";
 
 vi.mock('../src/components/MenuItem', () => ({
-  MenuItem: ({ item, addItem }) => (
+  MenuItem: ({ item, addItem}: MenuItemProps) => (
     <div data-testid={`menu-item-${item.id}`}>
       <span>{item.name}</span>
       <button onClick={() => addItem(item)}>Add</button>
@@ -15,7 +17,7 @@ vi.mock('../src/components/MenuItem', () => ({
 }));
 
 vi.mock('../src/components/OrderContent', () =>  ( {
-  OrderContent: ({order, removeItem}) => (
+  OrderContent: ({order, removeItem}: OrderContentProps) => (
     <div data-testid="order-content">
       {order.map(item => (
         <div key={item.id} data-testid={`order-item-${item.id}`}>
@@ -28,7 +30,7 @@ vi.mock('../src/components/OrderContent', () =>  ( {
 } ))
 
 vi.mock('../src/components/TipPercentageForm', () => ({
-  TipPercentageForm: ({ tip, setTip }) => (
+  TipPercentageForm: ({ tip, setTip }: TipPercentageFormProps) => (
     <div data-testid="tip-form">
       <input
         type="number"
@@ -39,11 +41,10 @@ vi.mock('../src/components/TipPercentageForm', () => ({
     </div>
   )
 }));
-
 vi.mock('../src/components/OrderTotals', () => ({
-  OrderTotals: ({ order, tip, placerOrder }) => (
+  OrderTotals: ({ placeOrder }: { placeOrder: () => void }) => (
     <div data-testid="order-totals">
-      <button data-testid="place-order-btn" onClick={placerOrder}>Place Order</button>
+      <button data-testid="place-order-btn" onClick={placeOrder}>Place Order</button>
     </div>
   )
 }));

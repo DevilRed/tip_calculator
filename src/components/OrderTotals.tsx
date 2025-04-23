@@ -2,7 +2,7 @@ import { useMemo } from "react"
 import { OrderItem } from "../types"
 import { formatCurrency } from "../helpers"
 
-type OrderTotalsProps = {
+export type OrderTotalsProps = {
 	order: OrderItem[],
 	tip: number,
 	placerOrder: () => void
